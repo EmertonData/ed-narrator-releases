@@ -34,7 +34,18 @@ claude plugin install ed-narrator-studio@ed-narrator-public
 
 In Cowork, choose **Customize > Plugins > Add > Add marketplace**, enter `EmertonData/ed-narrator-releases`, then add **ED Narrator Studio**. The Releases page also has a plugin ZIP for direct upload and a standalone voice-over skill ZIP; the standalone skill needs the MCP connector configured separately.
 
-Try `/ed-narrator-studio:studio a 40 second demo of <your app>` for the full studio workflow, or `/ed-narrator-studio:ed-narrator-voiceover` for voice-over only. You can also describe the task in plain language.
+### Slash commands
+
+| Command | Use |
+|---|---|
+| `/ed-narrator-studio:studio [what to demo, or a film path]` | Recommended entry point for a narrated demo from capture through music. |
+| `/ed-narrator-studio:ed-narrator-studio` | Run the director skill for the end-to-end workflow. |
+| `/ed-narrator-studio:ed-narrator-voiceover` | Voice an existing film without capture or motion design. |
+| `/ed-narrator-studio:studio-capture` | Capture the app or prepare an existing film. |
+| `/ed-narrator-studio:studio-motion` | Create motion design and the storyboard. |
+| `/ed-narrator-studio:studio-voice` | Write and voice the timed script, with optional music. |
+
+Claude usually invokes the capture, motion and voice skills as part of the studio workflow. In Claude Code, update with `/plugin marketplace update ed-narrator-public`; remove with `/plugin uninstall ed-narrator-studio`, then `/plugin marketplace remove ed-narrator-public`. In Cowork, manage the plugin under **Customize > Plugins**.
 
 ### App setup and supported files
 

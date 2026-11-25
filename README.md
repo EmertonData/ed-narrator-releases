@@ -23,9 +23,28 @@ This repository hosts desktop installers and the public Claude Code and Cowork p
 The release page lists exactly the files it carries.
 
 <!-- ed-narrator-marketplace:start -->
-## Claude Code and Cowork plugins
+## Claude Code and Cowork
 
-Install **ED Narrator Studio** from this public marketplace. Claude Code users can follow the [installation guide](docs/claude-plugins.md); Cowork users can add this repository from **Customize > Plugins > Add > Add marketplace**. The Releases page also provides ZIPs for direct plugin and skill uploads.
+The **ED Narrator Studio** plugin captures an app or uses an existing film, adds motion design, voices it, and mixes optional music. Install it from this public marketplace:
+
+```bash
+claude plugin marketplace add EmertonData/ed-narrator-releases
+claude plugin install ed-narrator-studio@ed-narrator-public
+```
+
+In Cowork, choose **Customize > Plugins > Add > Add marketplace**, enter `EmertonData/ed-narrator-releases`, then add **ED Narrator Studio**. The Releases page also has a plugin ZIP for direct upload and a standalone voice-over skill ZIP; the standalone skill needs the MCP connector configured separately.
+
+Try `/ed-narrator-studio:studio a 40 second demo of <your app>` for the full studio workflow, or `/ed-narrator-studio:ed-narrator-voiceover` for voice-over only. You can also describe the task in plain language.
+
+### App setup and supported files
+
+- Keep ED Narrator running on the same computer. The desktop app uses `http://127.0.0.1:18090` by default; Docker uses `http://127.0.0.1:8090`. Claude Code can change `ED_NARRATOR_URL` in the plugin's `/config` settings. Keep the address on loopback: the app has no login.
+- The plugin needs `uv` to start the public MCP connector. Cowork's local connector works in a local Cowork session in the desktop app.
+- The safe defaults read media from `~/Movies` and save results to `~/Movies/ed-narrator-output`. Claude Code users can change `ED_NARRATOR_INPUT_DIRS` and `ED_NARRATOR_OUTPUT_DIR` in `/config`; keep inputs in dedicated folders, not your home folder.
+- Supported films: `.mp4`, `.m4v`, `.mov`; scripts: `.srt`, `.md`, `.markdown`, `.txt`; optional music: `.mp3`, `.wav`, `.m4a`, `.aac`, `.ogg`, `.flac`.
+- Install a voice in the app's **Models** panel before starting. The plugin cannot read the Azure key; add or manage it in the app's **Settings**.
+
+See the [installation and safety guide](docs/claude-plugins.md) and [studio plugin guide](plugin/ed-narrator-studio/README.md).
 <!-- ed-narrator-marketplace:end -->
 
 ## Install on macOS

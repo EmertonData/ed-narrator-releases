@@ -38,22 +38,30 @@ In Cowork, choose **Customize > Plugins > Add > Add marketplace**, enter `Emerto
 
 | Command | Use |
 |---|---|
-| `/ed-narrator-studio:studio [what to demo, or a film path]` | Recommended entry point for a narrated demo from capture through music. |
+| `/ed-narrator-studio:studio [what to demo, or a film path]` | Recommended entry point for a narrated demo from capture through music. Example: `/ed-narrator-studio:studio a 40 second demo of <your app>`. |
 | `/ed-narrator-studio:ed-narrator-studio` | Run the director skill for the end-to-end workflow. |
-| `/ed-narrator-studio:ed-narrator-voiceover` | Voice an existing film without capture or motion design. |
+| `/ed-narrator-studio:ed-narrator-voiceover` | Voice an existing film without capture or motion design. Example: `/ed-narrator-studio:ed-narrator-voiceover voice ~/Movies/demo.mp4 with ~/Movies/demo.srt`. |
 | `/ed-narrator-studio:studio-capture` | Capture the app or prepare an existing film. |
 | `/ed-narrator-studio:studio-motion` | Create motion design and the storyboard. |
 | `/ed-narrator-studio:studio-voice` | Write and voice the timed script, with optional music. |
 
-Claude usually invokes the capture, motion and voice skills as part of the studio workflow. In Claude Code, update with `/plugin marketplace update ed-narrator-public`; remove with `/plugin uninstall ed-narrator-studio`, then `/plugin marketplace remove ed-narrator-public`. In Cowork, manage the plugin under **Customize > Plugins**.
+The studio command orchestrates capture, motion and voice; invoke those supporting skills directly only when you want one stage. In Claude Code, update with `/plugin marketplace update ed-narrator-public`. Remove with `/plugin uninstall ed-narrator-studio`, then `/plugin marketplace remove ed-narrator-public`. In Cowork, add, update or remove the plugin under **Customize > Plugins**.
 
 ### App setup and supported files
 
 - Keep ED Narrator running on the same computer. The desktop app uses `http://127.0.0.1:18090` by default; Docker uses `http://127.0.0.1:8090`. Claude Code can change `ED_NARRATOR_URL` in the plugin's `/config` settings. Keep the address on loopback: the app has no login.
-- The plugin needs `uv` to start the public MCP connector. Cowork's local connector works in a local Cowork session in the desktop app.
+- The plugin needs `uv` to start the public MCP connector. Cowork's local connector works in a local Cowork session in the desktop app. Browser capture and Remotion motion renders also need Node.js; voicing an existing film does not.
 - The safe defaults read media from `~/Movies` and save results to `~/Movies/ed-narrator-output`. Claude Code users can change `ED_NARRATOR_INPUT_DIRS` and `ED_NARRATOR_OUTPUT_DIR` in `/config`; keep inputs in dedicated folders, not your home folder.
 - Supported films: `.mp4`, `.m4v`, `.mov`; scripts: `.srt`, `.md`, `.markdown`, `.txt`; optional music: `.mp3`, `.wav`, `.m4a`, `.aac`, `.ogg`, `.flac`.
 - Install a voice in the app's **Models** panel before starting. The plugin cannot read the Azure key; add or manage it in the app's **Settings**.
+
+### First run and quick fixes
+
+1. Open ED Narrator and install a voice in **Models**.
+2. Put the film, script and optional music inside `~/Movies` (or your configured input folder).
+3. Try `/ed-narrator-studio:studio a 40 second demo of <your app>` or `/ed-narrator-studio:ed-narrator-voiceover voice ~/Movies/demo.mp4 with ~/Movies/demo.srt`.
+
+If Claude reports that the app is unreachable, check that it is open and that `ED_NARRATOR_URL` matches its port. If a file is refused, move it into the allowed input folder. If no voice is listed, install one in **Models**. For more cases, see the [troubleshooting guide](plugin/ed-narrator-studio/docs/troubleshooting.md).
 
 See the [installation and safety guide](docs/claude-plugins.md) and [studio plugin guide](plugin/ed-narrator-studio/README.md).
 <!-- ed-narrator-marketplace:end -->

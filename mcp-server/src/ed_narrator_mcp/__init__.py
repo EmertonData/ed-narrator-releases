@@ -1,0 +1,1 @@
+"""ED Narrator MCP server."""

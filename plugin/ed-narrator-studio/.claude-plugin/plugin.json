@@ -1,0 +1,30 @@
+{
+  "name": "ed-narrator-studio",
+  "version": "1.8.0",
+  "description": "Make a narrated product demo end to end: capture the app, add motion design (2D, 3D, cinematic), voice it with ED Narrator, mix background music, and install voices when needed.",
+  "author": { "name": "Emerton Data" },
+  "homepage": "https://github.com/EmertonData/ed-narrator-releases/tree/main/plugin/ed-narrator-studio",
+  "repository": "https://github.com/EmertonData/ed-narrator-releases",
+  "license": "MIT",
+  "keywords": ["voice-over", "demo", "motion-design", "3d", "tts", "video"],
+  "userConfig": {
+    "app_url": {
+      "type": "string",
+      "title": "ED Narrator address",
+      "description": "Loopback address of the running app. Use port 8090 for Docker or the address shown in Guide > Connect to Claude.",
+      "default": "http://127.0.0.1:18090"
+    },
+    "input_dirs": {
+      "type": "string",
+      "title": "Allowed media folders",
+      "description": "Only these folders can be read. Use the OS path separator between folders; never use your home folder itself.",
+      "default": "~/Movies"
+    },
+    "output_dir": {
+      "type": "string",
+      "title": "Output folder",
+      "description": "Folder where narrated videos and other results are saved.",
+      "default": "~/Movies/ed-narrator-output"
+    }
+  }
+}

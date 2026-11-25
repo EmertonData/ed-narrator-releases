@@ -1,0 +1,12 @@
+{
+  "name": "ed-narrator-public",
+  "owner": { "name": "Emerton Data" },
+  "description": "Claude plugins for ED Narrator, the voice-over app by Emerton Data.",
+  "plugins": [
+    {
+      "name": "ed-narrator-studio",
+      "source": "./plugin/ed-narrator-studio",
+      "description": "Make a narrated product demo end to end: capture the app, add motion design (2D, 3D, cinematic), voice it with ED Narrator and mix background music."
+    }
+  ]
+}

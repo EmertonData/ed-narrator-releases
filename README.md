@@ -7,7 +7,7 @@ A product of <a href="https://www.emerton-data.com/">Emerton Data</a>.</p>
 
 Upload a film (`.mp4`) and a script (`.srt`, `.md` or `.txt`), pick a voice, and get the same film back with the new narration timed to your subtitles. Everything runs on your computer.
 
-This repository holds **the installers only**. It is where the app downloads its updates from.
+This repository hosts desktop installers and the public Claude Code and Cowork plugin marketplace. It is where the app downloads its updates from.
 
 ## Download
 
@@ -21,6 +21,12 @@ This repository holds **the installers only**. It is where the app downloads its
 | **Linux** | `ED-Narrator_<version>_amd64.AppImage` | not in every release yet |
 
 The release page lists exactly the files it carries.
+
+<!-- ed-narrator-marketplace:start -->
+## Claude Code and Cowork plugins
+
+Install **ED Narrator Studio** from this public marketplace. Claude Code users can follow the [installation guide](docs/claude-plugins.md); Cowork users can add this repository from **Customize > Plugins > Add > Add marketplace**. The Releases page also provides ZIPs for direct plugin and skill uploads.
+<!-- ed-narrator-marketplace:end -->
 
 ## Install on macOS
 

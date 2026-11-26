@@ -1,6 +1,6 @@
 {
   "name": "ed-narrator-studio",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "Make a narrated product demo end to end: capture the app, add motion design (2D, 3D, cinematic), voice it with ED Narrator, mix background music, and install voices when needed.",
   "author": {
     "name": "Emerton Data"

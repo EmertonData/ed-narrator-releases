@@ -11,7 +11,7 @@ meta = json.load(open(os.path.join(src, "meta.json"))); frames = meta["frames"];
 os.makedirs(dst, exist_ok=True); info = {}
 for name, m in meta["marks"].items():
     s, e = m["start"], m.get("end", meta["END"]); n = int((e - s) * 30)
-    p = subprocess.Popen([ff, "-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", "30", "-c:v", "mjpeg", "-i", "pipe:0",
+    p = subprocess.Popen([ff, "-y", "-loglevel", "error", "-f", "image2pipe", "-framerate", "30", "-c:v", "mjpeg", "-protocol_whitelist", "file,pipe", "-i", "pipe:0",
         "-vf", "scale=1920:1080:in_range=pc:out_range=tv:flags=bicubic,format=yuv420p", "-r", "30", "-c:v", "libx264", "-crf", "17", "-preset", "medium", "-g", "30", "-an",
         os.path.join(dst, f"{name}.mp4")], stdin=subprocess.PIPE)
     for i in range(n):  # the screencast only emits a frame when the page changes: repeat the last one to get a constant rate

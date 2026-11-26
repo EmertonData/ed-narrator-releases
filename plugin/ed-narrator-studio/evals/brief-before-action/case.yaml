@@ -1,0 +1,25 @@
+schema_version: "1.0"
+name: brief-before-action
+description: A vague demo request must get a short brief (what, capture mode, style, voice, music) before any capture, install or render.
+tags: [fire, brief]
+execution:
+  prompt: |
+    Make a narrated 30 second demo video of my app.
+  max_turns: 6
+  timeout_seconds: 240
+  allowed_tools: [Read, Glob, Grep, Skill]
+runs: 3
+graders:
+  - type: llm
+    name: asks-before-acting
+    criteria: |
+      The reply asks the user for the missing context BEFORE doing any work: at least three of (what to show or which moments, how to capture the app or an existing film, the motion style, the voice or language, the music). It offers choices or a numbered list rather than guessing, and it does not claim to have recorded, installed, rendered or voiced anything.
+  - type: regex
+    name: no-fake-progress
+    pattern: "(render (is )?(finished|complete)|i('ve| have) (recorded|rendered|installed|voiced))"
+    flags: i
+    match: not_contains
+  - type: tool_used
+    name: studio-skill-fired
+    tool: Skill
+    input_match: "ed-narrator"

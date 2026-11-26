@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import argparse
 import asyncio
+import base64
 import hmac
 import logging
 import os
@@ -12,11 +13,13 @@ import shutil
 import subprocess
 import time
 from contextlib import ExitStack
+from pathlib import Path
 from typing import Literal
 
 import httpx
 from mcp.server.fastmcp import Context, FastMCP
 from mcp.server.fastmcp.exceptions import ToolError
+from mcp.types import Icon
 from mcp.server.transport_security import TransportSecuritySettings
 
 from .core import FILM_EXTS, MUSIC_EXTS, SCRIPT_EXTS, Config, GuardError, load_config, output_path, safe_input, safe_job_id
@@ -51,15 +54,21 @@ def _fail(r: httpx.Response) -> ToolError:
     return ToolError(f"ED Narrator answered {r.status_code}: {d}")
 
 
+# 128 px logo shown next to the connector in Claude (self-contained data URI: works from uvx, the desktop bundle and HTTP alike)
+ICON = Icon(src="data:image/png;base64," + base64.b64encode((Path(__file__).parent / "icon.png").read_bytes()).decode(),
+            mimeType="image/png", sizes=["128x128"])
+
+
 def build_server(cfg: Config, transport: httpx.AsyncBaseTransport | None = None, host: str = "127.0.0.1", port: int = 8765) -> FastMCP:
     # Explicit, not the SDK default: a web page in the browser must not reach /mcp (DNS rebinding, cross-site POST).
     security = TransportSecuritySettings(enable_dns_rebinding_protection=True, allowed_hosts=["127.0.0.1:*", "localhost:*", "[::1]:*"],
                                          allowed_origins=["http://127.0.0.1:*", "http://localhost:*", "http://[::1]:*"])
-    mcp = FastMCP("ed-narrator", instructions=INSTRUCTIONS, host=host, port=port, transport_security=security)
+    mcp = FastMCP("ed-narrator", instructions=INSTRUCTIONS, icons=[ICON], host=host, port=port, transport_security=security)
 
     def client() -> httpx.AsyncClient:
         # no redirects (one could point off the configured address); long read/write for uploading a big film and for streaming a result
-        return httpx.AsyncClient(base_url=cfg.url, transport=transport, timeout=httpx.Timeout(600, connect=10), follow_redirects=False)
+        return httpx.AsyncClient(base_url=cfg.url, transport=transport, timeout=httpx.Timeout(600, connect=10), follow_redirects=False,
+                                 trust_env=False)       # HTTP_PROXY / ALL_PROXY must never carry uploads away from the loopback address the guard checked
 
     async def api(method: str, path: str, **kw) -> httpx.Response:
         try:

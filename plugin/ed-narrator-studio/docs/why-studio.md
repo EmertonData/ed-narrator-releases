@@ -4,7 +4,7 @@ The decisions behind the plugin and what they cost. Nothing here is needed to us
 
 ## The problem
 
-ED Narrator voices a film well, but a demo is more than a voice. Someone must record the app, add motion so it does not look like a raw screen capture, write a script that fits the picture, and put music under it. Done by hand that is four tools and a lot of re-exporting. The first plugin idea was just a skill that voices a film (`skills/ed-narrator-voiceover`), which still exists, but it starts after the hard part is done.
+ED Narrator voices a film well, but a demo is more than a voice. Someone must record the app, add motion so it does not look like a raw screen capture, write a script that fits the picture, and put music under it. Done by hand that is four tools and a lot of re-exporting. The first plugin idea was just a skill that voices a film (`skills/ed-narrator-voiceover`), which the public publish script still adds next to these four, but it starts after the hard part is done.
 
 ## Four stages, in this order
 

@@ -7,18 +7,20 @@ import fs from "node:fs";
 import path from "node:path";
 
 const BASE = process.env.BASE_URL ?? "http://localhost:3000";
+if (!/^https?:\/\//i.test(BASE)) { console.error("BASE_URL must be an http(s) URL"); process.exit(2); }
 const OUT = path.resolve(process.env.OUT ?? "./out");
 const FR = path.join(OUT, "frames");
 // 1600x900 at 1.2 = 1920x1080 frames, with the UI drawn 20% larger than a 1920 layout: it stays legible when the film is shrunk.
 const VIEW = { width: 1600, height: 900 }, SCALE = 1.2;
 // Text that must never appear in the film (savings, names, keys): any element whose text matches is hidden while the tour runs.
-const MASK = process.env.MASK ? new RegExp(process.env.MASK, "i") : null;
+// MASK is a literal list of substrings split on "|" (case-insensitive), never a regex: a bad pattern cannot hang the capture.
+const MASK = process.env.MASK ? process.env.MASK.split("|").filter(Boolean).map((s) => s.toLowerCase()) : null;
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 fs.rmSync(OUT, { recursive: true, force: true }); fs.mkdirSync(FR, { recursive: true });
 
 const browser = await chromium.launch({ executablePath: process.env.PW_EXECUTABLE || undefined });
 const ctx = await browser.newContext({ viewport: VIEW, deviceScaleFactor: SCALE, colorScheme: process.env.SCHEME ?? "light", acceptDownloads: true });
-await ctx.addInitScript((maskSrc) => {
+await ctx.addInitScript((mask) => {
   // The screencast has no cursor: draw one, and hide tooltips (a cursor passing over a button must not raise one).
   addEventListener("DOMContentLoaded", () => {
     const d = document.createElement("div");
@@ -29,11 +31,11 @@ await ctx.addInitScript((maskSrc) => {
     addEventListener("mousedown", () => (d.style.transform = "translate(-4px,-2px) scale(.85)"), true);
     addEventListener("mouseup", () => (d.style.transform = "translate(-4px,-2px)"), true);
     const st = document.createElement("style"); st.textContent = '[role="tooltip"],[data-slot="tooltip-content"]{display:none !important}'; document.head.append(st);
-    if (maskSrc) { const re = new RegExp(maskSrc, "i");
-      const hide = () => { const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); for (let n = w.nextNode(); n; n = w.nextNode()) if (re.test(n.textContent || "") && n.parentElement) (n.parentElement.closest("td,th") ?? n.parentElement).style.visibility = "hidden"; };
+    if (mask) {
+      const hide = () => { const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT); for (let n = w.nextNode(); n; n = w.nextNode()) if (mask.some((m) => (n.textContent || "").toLowerCase().includes(m)) && n.parentElement) (n.parentElement.closest("td,th") ?? n.parentElement).style.visibility = "hidden"; };
       new MutationObserver(hide).observe(document, { childList: true, subtree: true, characterData: true }); setInterval(hide, 100); }
   });
-}, MASK ? MASK.source : null);
+}, MASK);
 
 const page = await ctx.newPage();
 const cdp = await ctx.newCDPSession(page);

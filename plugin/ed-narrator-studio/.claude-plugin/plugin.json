@@ -1,13 +1,30 @@
 {
   "name": "ed-narrator-studio",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "description": "Make a narrated product demo end to end: capture the app, add motion design (2D, 3D, cinematic), voice it with ED Narrator, mix background music, and install voices when needed.",
-  "author": { "name": "Emerton Data" },
+  "author": {
+    "name": "Emerton Data"
+  },
   "homepage": "https://github.com/EmertonData/ed-narrator-releases/tree/main/plugin/ed-narrator-studio",
   "repository": "https://github.com/EmertonData/ed-narrator-releases",
   "license": "MIT",
   "icon": "./.claude-plugin/icon.png",
-  "keywords": ["voice-over", "demo", "motion-design", "3d", "tts", "video"],
+  "network": {
+    "hosts": [
+      "github.com",
+      "pypi.org",
+      "files.pythonhosted.org",
+      "127.0.0.1"
+    ]
+  },
+  "keywords": [
+    "voice-over",
+    "demo",
+    "motion-design",
+    "3d",
+    "tts",
+    "video"
+  ],
   "userConfig": {
     "app_url": {
       "type": "string",

@@ -1,0 +1,33 @@
+schema_version: "1.0"
+name: tight-lines
+description: A cue far too long for its slot is shortened (only that cue, numbers and timings kept) and not rendered as is.
+tags: [fire, voice]
+execution:
+  prompt: |
+    Voice my film demo.mp4 (30 seconds) with ED Narrator using this script, demo.srt:
+
+    1
+    00:00:00,500 --> 00:00:04,000
+    Welcome to the studio.
+
+    2
+    00:00:05,000 --> 00:00:07,000
+    This product lets every team member upload recordings, tag them, search across all of them, share the results with customers and export a full report for finance in one single click.
+
+    3
+    00:00:10,000 --> 00:00:14,000
+    Try it today.
+  max_turns: 6
+  timeout_seconds: 240
+  allowed_tools: [Read, Glob, Grep, Skill]
+runs: 3
+graders:
+  - type: llm
+    name: catches-and-fixes-the-tight-cue
+    criteria: |
+      The reply notices that cue 2 is far too long for its 2 second slot (about 2.5 words per second at most), proposes a shortened version of ONLY that cue, keeps the cue numbers and timings, and shows the change to the user. It does not silently render with the over-long line.
+  - type: llm
+    name: leaves-other-cues-alone
+    weight: 0.5
+    criteria: |
+      Cues 1 and 3 are left unchanged in the proposal, or not mentioned as needing change.

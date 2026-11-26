@@ -5,10 +5,10 @@ Pop = a big change into frame i and a big change out, while frames i-1 and i+1 l
 Review each reported time with transition-strip.sh before deciding: a pop at a deliberate flash is intended, anywhere else it is a bug."""
 import shutil, subprocess, sys
 
-film = sys.argv[1]; ff = sys.argv[2] if len(sys.argv) > 2 else shutil.which("ffmpeg")
+film = sys.argv[1] if not sys.argv[1].startswith("-") else "./" + sys.argv[1]; ff = sys.argv[2] if len(sys.argv) > 2 else shutil.which("ffmpeg")
 if not ff: sys.exit("ffmpeg not found: pass its path as the second argument")
 W, H, FPS = 64, 36, 30; N = W * H
-p = subprocess.Popen([ff, "-loglevel", "error", "-i", film, "-vf", f"fps={FPS},scale={W}:{H},format=gray", "-f", "rawvideo", "-"], stdout=subprocess.PIPE)
+p = subprocess.Popen([ff, "-loglevel", "error", "-protocol_whitelist", "file,pipe", "-i", film, "-vf", f"fps={FPS},scale={W}:{H},format=gray", "-f", "rawvideo", "-"], stdout=subprocess.PIPE)
 frames = []
 while True:
     b = p.stdout.read(N)

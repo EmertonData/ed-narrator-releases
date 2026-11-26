@@ -7,6 +7,7 @@ import fs from "node:fs";
 
 const [url, selector, out] = process.argv.slice(2);
 if (!url || !selector || !out) { console.error("usage: extract-brand.mjs <url> <svg selector> <out.json> [--dark]"); process.exit(2); }
+if (!/^https?:\/\//i.test(url)) { console.error("url must be http(s)"); process.exit(2); }
 const dark = process.argv.includes("--dark");
 const browser = await chromium.launch({ executablePath: process.env.PW_EXECUTABLE || undefined });
 const ctx = await browser.newContext({ viewport: { width: 1600, height: 900 }, colorScheme: dark ? "dark" : "light" });

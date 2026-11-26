@@ -9,7 +9,7 @@ Exact names, settings and limits. To learn the flow, read the [tutorial](tutoria
 | **Name** | `ed-narrator-studio` (version 1.8.1, MIT) |
 | **Marketplace** | `ed-narrator-public`, from `EmertonData/ed-narrator-releases` (public repository) |
 | **Command** | `/ed-narrator-studio:studio [what to demo, or a film path]` |
-| **Connector** | the `ed-narrator` MCP server, started by `uvx` from `mcp-server/` in the repository |
+| **Connector** | the `ed-narrator` MCP server, started by `uvx` from `mcp-server/` in the repository, pinned to a commit in `.mcp.json` (the pin is bumped at each release) |
 | **Other assistants** | the connector works over MCP anywhere; `AGENTS.md` at the plugin root is the neutral entry point to the skills. See [Other assistants](other-assistants.md) |
 | **Needs** | ED Narrator running, `uv`, Claude Code 2.1.275 or later or Claude Cowork with plugin support; Node for Playwright and Remotion |
 
@@ -18,10 +18,10 @@ Exact names, settings and limits. To learn the flow, read the [tutorial](tutoria
 | Skill | Your specialist | What it does |
 |---|---|---|
 | `ed-narrator-studio` | **Director** | Asks the brief once, runs the four stages in order, enforces the rules (input folder, consent, nothing published without a yes). |
-| `studio-capture` | **Camera operator** | Gets the film: scripted browser capture (Playwright), macOS screen recording (`screencapture`), or an existing `.mp4`/`.m4v`/`.mov`. |
+| `studio-capture` | **Camera operator** | Gets the film: scripted browser capture (Playwright), a scene-marked feature tour, macOS screen recording (`screencapture`), or an existing `.mp4`/`.m4v`/`.mov`. |
 | `studio-motion` | **Motion designer** | Offers the styles, publishes the animated storyboard artifact, waits for approval, renders and assembles a silent `composed.mp4`. |
 | `studio-voice` | **Narrator and sound** | Finds or installs a voice, writes the timed script, fixes tight lines, renders with music, downloads the result. |
-| `ed-narrator-voiceover` | **Voice-over** | The standalone timed voice-over routine, also distributed separately as a skill ZIP. |
+| `ed-narrator-voiceover` | **Voice-over** | The standalone timed voice-over routine, also distributed as a skill ZIP. Not in this source tree: the public publish script adds it. |
 
 Claude loads a skill when a request matches its description; you rarely name one.
 

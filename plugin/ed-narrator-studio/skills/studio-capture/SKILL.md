@@ -1,11 +1,13 @@
 ---
 name: studio-capture
-description: Get the demo film for an ED Narrator studio project: scripted Playwright browser capture, macOS screen recording, or an existing .mov/.mp4, saved in the input folder.
+description: Get the demo film for an ED Narrator studio project: scripted Playwright capture, macOS screen recording or an existing .mov/.mp4, saved in the input folder. Use for "record my screen", "capture the app".
 ---
 
 # Capture the demo
 
-Ask which mode (an existing film, a scripted capture, a scene-marked feature tour, or a screen recording) with `AskUserQuestion` (numbered text without the tool), then do only that one. Ask what the capture needs in the same batch or in follow-ups: the URL (free text), the moments to show (`multiSelect` when the app's features are known), what must be hidden, and whether the data on screen is real. The result is a film in the **input folder** (`check_status` > `input_dirs`). ED Narrator accepts `.mp4`, `.m4v` and `.mov`.
+Paths like `scripts/` and `docs/` start at the plugin root, two folders above this skill's base directory. Skip anything the brief already answered.
+
+Ask which mode (an existing film, a scripted capture, a scene-marked feature tour, or a screen recording) with `AskUserQuestion`, then do only that one. Ask what the capture needs in the same batch or in follow-ups: the URL (free text), the moments to show (`multiSelect` when the app's features are known), what must be hidden, and whether the data on screen is real. The result is a film in the **input folder** (`check_status` > `input_dirs`). ED Narrator accepts `.mp4`, `.m4v` and `.mov`.
 
 Before recording: the screen will be filmed, so ask the user to close private windows, notifications and anything with names, keys or customer data.
 
@@ -23,14 +25,13 @@ Then convert: `ffmpeg -i out/*.webm -c:v libx264 -pix_fmt yuv420p -r 30 -an <inp
 
 ## 2b. Scene-marked feature tour (best for a walkthrough of several features)
 
-One run records the whole tour as frames and marks where each feature starts and ends, so every feature becomes its own clip that the motion stage can speed up, slow down and point a camera at. Use `scripts/capture-tour.mjs` (copy it to a scratch folder, fill the steps, `node capture-tour.mjs`) and `scripts/cut-scenes.py <out> <clips dir>`, which writes one constant-30-fps `1920x1080` clip per mark plus `clips.json` (seconds per mark).
+One run records the whole tour as frames and marks where each feature starts and ends, so every feature becomes its own clip that the motion stage can speed up, slow down and point a camera at. Use `scripts/capture-tour.mjs` (copy it to a scratch folder, fill the steps, `BASE_URL=<url> OUT=<scratch>/out node capture-tour.mjs`) and `scripts/cut-scenes.py <out> <clips dir>`, which writes one constant-30-fps `1920x1080` clip per mark plus `clips.json` (seconds per mark).
 
-- **Brief first:** the 3 to 5 moments to show, in order, one mark each. Ask before capturing: the screen may show private data (see below).
 - **Data must look real.** A tour of constraint dialogs, charts or results on garbled data shows absurd numbers (a nutrient mean of 0.0003, a Cpk in the tens of thousands). Check the data on screen first; if it is wrong, ask the user before seeding demo data or writing to any database. Read the numbers a dialog shows and type plausible limits from them, instead of hard-coding values.
 - **Hide what must never appear** (savings, before and after cost, names, keys) with `MASK="saves|was|cost impact" node capture-tour.mjs`: matching text is hidden while recording. Tell the user what you hid.
 - **Selectors:** text and role names, not CSS. Custom pickers render their options as plain elements, not `role=option`. On macOS select-all is `Meta+a`. Wrap optional steps in `soft(...)` so one missing control does not lose the whole tour, and read `fail.png` when a step fails.
 - A download (an Excel export) is saved next to the frames; its real file name is in `meta.json` (`downloadName`) and can be shown in the film.
-- Frames are recorded at 1600x900 with a device scale of 1.2: the UI is drawn larger and stays legible when the film is shrunk.
+- Frames are 1600x900 at scale 1.2, so the UI stays legible when shrunk.
 
 ## 3. macOS screen recording
 

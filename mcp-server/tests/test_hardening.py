@@ -65,8 +65,29 @@ def test_http_refuses_foreign_host_and_origin():
     assert post("", {"origin": "https://evil.example"}).status_code in (421, 403)
 
 
+async def test_the_client_ignores_proxy_environment_variables(monkeypatch):
+    for k in ("HTTP_PROXY", "HTTPS_PROXY", "ALL_PROXY"):
+        monkeypatch.setenv(k, "http://proxy.example:3128")
+    made = []
+
+    class Spy(httpx.AsyncClient):
+        def __init__(self, *a, **k):
+            super().__init__(*a, **k)
+            made.append(self)
+    monkeypatch.setattr(httpx, "AsyncClient", Spy)
+    mcp = build_server(Config("http://127.0.0.1:8090", Path("/tmp/o"), ()), transport=httpx.MockTransport(lambda r: httpx.Response(200, json={"ok": True, "ffmpeg": True} if r.url.path == "/api/health" else [])))
+    await mcp.call_tool("check_status", {})
+    assert made and all(c.trust_env is False for c in made)
+
+
 def test_http_bearer_token():
     assert post("s3cret", {}).status_code == 401
     assert post("s3cret", {"authorization": "Bearer wrong"}).status_code == 401
     assert post("s3cret", {"authorization": "s3cret"}).status_code == 401
     assert post("s3cret", {"authorization": "Bearer s3cret"}).status_code == 200
+
+
+def test_server_advertises_its_icon(tmp_path):
+    server = build_server(Config(url="http://127.0.0.1:1", output_dir=tmp_path / "out", input_dirs=(tmp_path,)))
+    icons = server._mcp_server.icons
+    assert icons and icons[0].src.startswith("data:image/png;base64,") and icons[0].mimeType == "image/png"

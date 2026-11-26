@@ -28,7 +28,7 @@ Put it (or say where it is) and ask: `/ed-narrator-studio:studio use ~/Desktop/r
 
 ## Record the app in a browser
 
-Say `record https://… and click through: open Models, install a voice`. Claude writes a Playwright script in a scratch folder, records at 1920 × 1080 with a visible cursor, and converts the video to an `.mp4` in your input folder. If Playwright is missing it tells you to run `npm i playwright && npx playwright install chromium` in the scratch folder; it does not install it silently.
+Say `record https://… and click through: open Models, install a voice`. Claude writes a Playwright script in a scratch folder, records at 1920 × 1080 with a visible cursor, and converts the video to an `.mp4` in your input folder. If Playwright is missing it tells you to run `npm i playwright && npx playwright install chromium` in the scratch folder; it does not install it silently. For a walkthrough of several features, ask for a scene-marked tour: one run records each feature as its own clip.
 
 ---
 
@@ -55,7 +55,7 @@ Name the style in the request (`editorial`, `3D`, `cinematic`, `kinetic typograp
 
 ## Add background music
 
-Put the file in the input folder and name it in the request (`music in bed.mp3`). Claude passes it to the render; the app mixes it under the voice (ducking) and normalises the result. Without a file, no music is used: Claude will not look for one.
+Put the file in the input folder and name it in the request (`music in bed.mp3`). Claude passes it to the render. Through the connector the app returns narration only, so Claude mixes the music under the voice itself (ducked, `scripts/mix-narration.sh`) and checks the balance. Without a file, no music is used: Claude will not look for one.
 
 **Music file formats supported:** `.mp3`, `.wav`, `.m4a`, `.aac`, `.ogg`, `.flac` (up to 200 MB)
 
@@ -63,7 +63,7 @@ Put the file in the input folder and name it in the request (`music in bed.mp3`)
 
 ## Change how loud the music is
 
-In the ED Narrator app, open the job, then the **Music mix** panel: pick a preset (Subtle, Balanced, Radio) or set the level, the dip under the voice, the fades and where the music enters, then **Export mix**. **Remove music mix** goes back to voice only. The plugin does not change these settings.
+In the ED Narrator app, open the job, then the **Music mix** panel: pick a preset (Subtle, Balanced, Radio) or set the level, the dip under the voice, the fades and where the music enters, then **Export mix**. **Remove music mix** goes back to voice only. Claude's own mix is not that panel's: ask Claude for louder or quieter music, or use the panel for a hand-made mix.
 
 **Loudness target:** Normalised to -16 LUFS
 

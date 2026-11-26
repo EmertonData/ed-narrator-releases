@@ -90,7 +90,7 @@ Claude picks a voice for the language and tells you which, then calls `create_vo
 
 Claude reports the voice, how many lines were too long, whether music was used, and the saved path, for example `…/ed-narrator-output/1a2b3c4d-voiced.mp4`. Open it and listen.
 
-If the music is too loud or too quiet, adjust it in the app: the **Music mix** panel has presets (Subtle, Balanced, Radio) and a ducking level. The plugin does not change the mix itself.
+If the music is too loud or too quiet, ask Claude to remix it louder or quieter, or adjust it in the app's **Music mix** panel (presets Subtle, Balanced, Radio, and a ducking level).
 
 ## What you learned
 

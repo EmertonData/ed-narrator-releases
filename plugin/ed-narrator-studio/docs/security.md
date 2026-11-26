@@ -34,6 +34,6 @@ The plugin page in Claude's directory lists two notices: it **can send data to o
 
 ## Reporting a problem
 
-Report vulnerabilities privately to the Emerton Data maintainers, not in a public issue. Say which tool or skill, the plugin version (`1.8.0` in `plugin.json`), the steps and the impact you saw. Problems in third-party tools the plugin drives (Claude Code, Remotion, Playwright, ffmpeg) belong with those projects.
+Report vulnerabilities privately to the Emerton Data maintainers, not in a public issue. Say which tool or skill, the plugin version (from `plugin.json`), the steps and the impact you saw. Problems in third-party tools the plugin drives (Claude Code, Remotion, Playwright, ffmpeg) belong with those projects.
 
 More on the connector and its tests: [MCP server guide](https://github.com/EmertonData/ed-narrator-releases/blob/main/mcp-server/README.md).

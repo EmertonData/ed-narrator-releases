@@ -54,7 +54,7 @@ A strong brief is not enough; the first render is rarely final. Do not build bef
    A beat with no "why" does not belong in the film.
 2. **Check stills.** `scripts/contact-sheet.sh` of the middle of every beat. Look for: one focal element at least half the frame wide, text readable on a phone (at least 32 px at 1080p), nothing in the corners, even spacing, a new layout each beat.
 3. **Check the motion.** `scripts/transition-strip.sh` around each transition shows every frame; `scripts/scan-pops.py` finds single-frame pops and hard cuts. A pop is a bug unless it is a deliberate flash. (On the first real run this caught clips that ended before their scene did and rendered a glitch frame.)
-4. **Check the sound.** `scripts/check-mix.py`: the voice should sit at least 5 dB above the music in every cue; under 3 dB is hard to follow.
+4. **Check the sound.** `scripts/check-mix.py`: the voice-to-music margin per cue (the threshold is in `studio-voice`).
 5. **Fix one thing at a time.** Name the second and say what should happen: "at 18.3 s it cuts from the button to an empty box; nothing connects them" beats "the transitions feel off". Protect what works ("do not change anything from 29 s on"). Ask for evidence (frames, measurements), not "is it fixed?".
 
 | You see | Say |

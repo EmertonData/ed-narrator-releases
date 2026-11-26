@@ -5,11 +5,11 @@ For each cue it measures the mean level while the cue speaks and in the gap just
 Rule of thumb: 5 dB or more is fine, under 3 dB is hard to follow. When it fails, lower the music (mix-narration.sh music_gain) or open the app's Music mix panel."""
 import re, shutil, subprocess, sys
 
-film, srt = sys.argv[1], sys.argv[2]; ff = sys.argv[3] if len(sys.argv) > 3 else shutil.which("ffmpeg")
+film, srt = (a if not a.startswith("-") else "./" + a for a in sys.argv[1:3]); ff = sys.argv[3] if len(sys.argv) > 3 else shutil.which("ffmpeg")
 if not ff: sys.exit("ffmpeg not found: pass its path as the third argument")
 sec = lambda s: int(s[:2]) * 3600 + int(s[3:5]) * 60 + int(s[6:8]) + int(s[9:12]) / 1000
 def level(t, d):
-    r = subprocess.run([ff, "-hide_banner", "-ss", f"{t:.3f}", "-t", f"{d:.3f}", "-i", film, "-vn", "-af", "volumedetect", "-f", "null", "-"], capture_output=True, text=True)
+    r = subprocess.run([ff, "-hide_banner", "-ss", f"{t:.3f}", "-t", f"{d:.3f}", "-protocol_whitelist", "file,pipe", "-i", film, "-vn", "-af", "volumedetect", "-f", "null", "-"], capture_output=True, text=True)
     m = re.search(r"mean_volume: (-?[\d.]+) dB", r.stderr); return float(m.group(1)) if m else None
 cues = re.findall(r"(\d+)\n(\d\d:\d\d:\d\d,\d{3}) --> (\d\d:\d\d:\d\d,\d{3})\n(.+)", open(srt).read())
 worst = 99.0

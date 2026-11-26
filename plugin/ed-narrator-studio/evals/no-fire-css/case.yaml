@@ -1,0 +1,23 @@
+schema_version: "1.0"
+name: no-fire-css
+description: A generic web animation request must not trigger the demo-video studio.
+tags: [no-fire]
+execution:
+  prompt: |
+    Add a subtle fade-in animation to the hero section of my landing page using only CSS. Show me the CSS.
+  max_turns: 4
+  timeout_seconds: 180
+  allowed_tools: [Read, Glob, Grep, Skill]
+runs: 3
+graders:
+  - type: llm
+    name: answers-the-css-question
+    criteria: |
+      The reply gives plain CSS (keyframes or a transition, an opacity change) for a hero section fade-in. It does not mention narration, voice-over, ED Narrator, Remotion, capturing a demo or rendering a film.
+  - type: tool_used
+    name: studio-skill-did-not-fire
+    tool: Skill
+    input_match: "ed-narrator"
+    min: 0
+    max: 0
+    arm: both

@@ -1,9 +1,11 @@
 ---
 name: studio-voice
-description: Voice a film with ED Narrator (one or two voices), mix background music, check the voice-to-music balance, and install voices or engines when none fits.
+description: Voice a film with ED Narrator (one or two voices), mix music, check the voice-to-music balance, install voices or engines. Use for "add a voice-over", "narrate this film", "install a voice".
 ---
 
 # Voice, music and model installs
+
+Paths like `scripts/` and `docs/` start at the plugin root, two folders above this skill's base directory. Skip anything the brief already answered.
 
 If the `ed-narrator` connector tools are missing, tell the user to enable the plugin's connector (or open **Guide > Connect to Claude** in the app) and stop.
 
@@ -12,9 +14,9 @@ If the `ed-narrator` connector tools are missing, tell the user to enable the pl
 `check_status`. Then `list_voices` for the script's language (filter by `provider` and `language`; the list is long). If there is none:
 
 1. `list_installable` (with the language). **Piper voices** are about 65 MB and need no confirmation: recommend one and, on the user's yes, `install_voice_model(name="piper", voice_id=...)`.
-2. **Heavier engines** (`kokoro` 2.4 GB, `pocket` 3.5 GB) only if the user wants more quality or a language Piper lacks. Call `install_voice_model` without `confirm` first: it returns the size and memory need and installs nothing. Tell the user those numbers and **ask** with `AskUserQuestion` (options: install, pick a lighter voice, cancel; numbered text without the tool). Only after a clear yes call again with `confirm=True`.
+2. **Heavier engines** (`kokoro` 2.4 GB, `pocket` 3.5 GB, `chatterbox` 5.5 GB and NVIDIA GPU only) only if the user wants more quality or a language Piper lacks. Call `install_voice_model` without `confirm` first: it returns the size and memory need and installs nothing. Tell the user those numbers and **ask** with `AskUserQuestion` (options: install, pick a lighter voice, cancel). Only after a clear yes call again with `confirm=True`.
 3. If an engine ever has a licence, the tool refuses and says so: send the user to **Models** in the app, where only they accept it. Never look for a way around it.
-4. `wait_for_install` (repeat while it says still installing). If it fails, give the plain error. Then `list_voices` again.
+4. `wait_for_install` (for piper pass the same `voice_id`; repeat while it says still installing). If it fails, give the plain error. Then `list_voices` again.
 
 Azure voices need a key typed into the app's Settings by the user. You never handle keys.
 
@@ -28,12 +30,12 @@ Write an `.srt` in the **input folder**, timed against the **composed** film: if
 
 ## 3. Render, then check the mix
 
-`create_voiceover(film_path, script_path, voice, second_voice?, provider?, music_path?, pronunciations?)`. Pass `music_path` **only** if the user gave a file (or you generated one with `scripts/make-bed.py` and the user agreed), inside the input folder. `quality="high"` only if they asked for lossless. `wait_for_job` until done, then `download_result` (the MP4 by default; `wav` is the narration alone).
+`create_voiceover(film_path, script_path, voice, second_voice?, provider?, music_path?, pronunciations?)`. Pass `music_path` **only** if the user gave a file (or you generated one with `scripts/make-bed.py <seconds> <out.wav> "[scene-change times]"` into a scratch folder and the user agreed), copied into the input folder. `quality="high"` only if they asked for lossless. `wait_for_job` until done, then `download_result` (the MP4 by default; `wav` is the narration alone).
 
-**The app replaces the film's original audio** with the narration. With `music_path` the job reports `music: true` and the app stores the track, but the mix itself is computed in the app's browser (the **Music mix** panel), so a job driven only through the connector downloads narration-only audio, with silence between cues. Check what you got: run `scripts/check-mix.py <voiced film> <script.srt>`: it measures the voice against the music in every cue (5 dB or more is fine, under 3 dB is hard to follow). If the music is missing or too loud, download the narration `wav` and mix it yourself:
+**The app replaces the film's original audio** with the narration. With `music_path` the job reports `music: true` and the app stores the track, but the mix itself is computed in the app's browser (the **Music mix** panel), so a job driven only through the connector downloads narration-only audio, with silence between cues. Check what you got: run `scripts/check-mix.py <voiced film> <script.srt>`: it measures the voice against the music in every cue (remix below 5 dB). If the music is missing or too loud, download the narration `wav` and mix it yourself:
 
-`scripts/mix-narration.sh <silent film> <narration.wav> <music> <out.mp4> [music_gain=0.26]` ducks the music under the voice and copies the video untouched. Lower the gain (0.2) and re-check until the worst margin is comfortable. Tell the user the mix is made outside the app when it is, and that opening the job in the app's **Music mix** panel is the other way to get a mix they can adjust.
+`scripts/mix-narration.sh <silent film> <narration.wav> <music> <out.mp4> [music_gain=0.26]` ducks the music under the voice and copies the video untouched. Lower the gain (0.2) and re-check until the worst margin is comfortable. Tell the user when the mix was made outside the app (the app's **Music mix** panel is the adjustable alternative).
 
 ## 4. Report
 
-The voices and engine and why they were chosen, how many lines were too long, whether music was used and how it was mixed, the worst voice-to-music margin, and the saved path. Leave jobs alone unless asked to delete them.
+The voices and engine and why they were chosen, how many lines were too long, whether music was used and how it was mixed, the worst voice-to-music margin, and the saved path.

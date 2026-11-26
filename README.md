@@ -23,10 +23,10 @@ This repository hosts desktop installers and the public Claude Code and Cowork p
 <!-- ed-narrator-download:start -->
 | System | File | Status |
 |---|---|---|
-| **macOS** (Apple silicon: M1 and later) | [`ED-Narrator_1.8.5_aarch64.dmg`](https://github.com/EmertonData/ed-narrator-releases/releases/download/v1.8.5/ED-Narrator_1.8.5_aarch64.dmg) | available in v1.8.5 |
-| **macOS** (Intel) | none yet | not in v1.8.5 |
-| **Windows** | none yet | not in v1.8.5 |
-| **Linux** | none yet | not in v1.8.5 |
+| **macOS** (Apple silicon: M1 and later) | [`ED-Narrator_1.8.6_aarch64.dmg`](https://github.com/EmertonData/ed-narrator-releases/releases/download/v1.8.6/ED-Narrator_1.8.6_aarch64.dmg) | available in v1.8.6 |
+| **macOS** (Intel) | none yet | not in v1.8.6 |
+| **Windows** | none yet | not in v1.8.6 |
+| **Linux** | none yet | not in v1.8.6 |
 <!-- ed-narrator-download:end -->
 
 The release page lists exactly the files it carries.
@@ -34,13 +34,13 @@ The release page lists exactly the files it carries.
 <!-- ed-narrator-releases:start -->
 ## Releases
 
-Every version has its own page on the [Releases page](https://github.com/EmertonData/ed-narrator-releases/releases). The latest is **[v1.8.5](https://github.com/EmertonData/ed-narrator-releases/releases/tag/v1.8.5)**.
+Every version has its own page on the [Releases page](https://github.com/EmertonData/ed-narrator-releases/releases). The latest is **[v1.8.6](https://github.com/EmertonData/ed-narrator-releases/releases/tag/v1.8.6)**.
 
 Each release carries:
 
 - the macOS installer (`.dmg`), plus the Windows installer (`.exe`) and the Linux AppImage when they were built;
 - the signed update archive (`.app.tar.gz` with its `.sig`) and `latest.json`, which installed apps read to update themselves;
-- the Claude plugin ZIP (`ed-narrator-studio-v1.8.5.zip`) and the standalone voice-over skill ZIP (`ed-narrator-voiceover-skill-v1.8.5.zip`).
+- the Claude plugin ZIP (`ed-narrator-studio-v1.8.6.zip`) and the standalone voice-over skill ZIP (`ed-narrator-voiceover-skill-v1.8.6.zip`).
 
 Installed apps update themselves, so you only need an installer for a first install.
 <!-- ed-narrator-releases:end -->

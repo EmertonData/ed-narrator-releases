@@ -27,7 +27,7 @@ There is no best style for every demo: 3D suits a product launch, minimal suits 
 The connector talks to an app that has no login, and it reads and writes your files, so it is narrow on purpose:
 
 - **Files** are read only from folders you allow, and written only to one output folder under a fixed name.
-- **Installs** exist because a demo should not stall on "no voice". A Piper voice is small and installs on your yes. Kokoro and Pocket TTS are gigabytes, so the tool refuses until `confirm` is set after Claude has shown you the size. Only ids the app listed ever reach a URL.
+- **Installs** exist because a demo should not stall on "no voice". A Piper voice is small and installs on your yes. Kokoro, Pocket TTS and Chatterbox are gigabytes, so the tool refuses until `confirm` is set after Claude has shown you the size. Only ids the app listed ever reach a URL.
 - **Licences** are never accepted through a tool. The tool that did this once (Linnet, now removed from the app) was the case that made the point: an argument filled in by a model proves nothing about what you read.
 - **Nothing is published** (artifact or file) and **nothing is deleted** without your yes.
 

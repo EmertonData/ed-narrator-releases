@@ -1,11 +1,12 @@
 # ED Narrator studio
 
-A Claude plugin that makes a narrated, animated demo of an app from one request: it **captures** the app, adds **motion design** in a style you choose (2D, kinetic type, 3D, cinematic), **voices** it with [ED Narrator](https://github.com/EmertonData/ed-narrator-releases) and puts your **music** under it. If no voice is installed, it can install one, with your yes.
+A Claude plugin that makes a narrated, animated demo of an app from one request: it **captures** the app, adds **motion design** in a style you choose (editorial by default for work tools, 2D, kinetic type, 3D, cinematic), **voices** it with [ED Narrator](https://github.com/EmertonData/ed-narrator-releases) and puts your **music** under it. If no voice is installed, it can install one, with your yes.
 
-**Who this is for:**
-- **Product people and founders** who need a demo video without opening four tools
-- **Teams on ED Narrator** who already voice films and want capture, motion and music in the same flow
-- **Claude Code and Cowork users** who prefer one request and a few approvals to a timeline editor
+| **Who this is for:** |
+| :--- |
+| **Product people and founders** who need a demo video without opening four tools |
+| **Teams on ED Narrator** who already voice films and want capture, motion and music in the same flow |
+| **Claude Code and Cowork users** who prefer one request and a few approvals to a timeline editor |
 
 ## What it is for
 
@@ -29,6 +30,8 @@ A Claude plugin that makes a narrated, animated demo of an app from one request:
 2. Run `/ed-narrator-studio:studio a 40 second demo of <your app>`.
 3. Answer the short brief, approve the style when Claude stops, and read the result's path at the end.
 
+Examples: `/ed-narrator-studio:studio use ~/Movies/demo.mov`, or `... 1 minute promo, 3D style, music in bed.mp3`.
+
 Stop there; you'll know if it fits. The [tutorial](docs/tutorial-first-demo.md) walks the whole flow with what you will see at each step.
 
 ## Install
@@ -49,6 +52,10 @@ Or run `claude plugin marketplace add EmertonData/ed-narrator-releases` and `cla
 Open **Customize > Plugins > Add > Add marketplace**, enter `EmertonData/ed-narrator-releases`, then add **ED Narrator Studio**. If Claude Code uses the same Claude account, the plugin syncs there too.
 
 The public Releases page also has a plugin ZIP for direct upload and a standalone voice-over skill ZIP.
+
+### Other assistants
+
+The marketplace install is for Claude only. The `ed-narrator` connector works in any assistant that supports MCP, and [`AGENTS.md`](AGENTS.md) lets assistants that read it follow the same capture, motion, voice and music flow. Setup for Cursor, Codex, opencode, Gemini CLI and VS Code is in [Other assistants](docs/other-assistants.md); it has not been tested outside Claude.
 
 Configure the connector in Claude Code's `/config` panel. Cowork uses the safe defaults below; put input files in `~/Movies` or change the folders in `/config` when using Claude Code.
 
@@ -71,6 +78,7 @@ Check it works by asking Claude: `check the status of ED Narrator`. It should re
 | Look up a tool, a setting, a limit | [Reference](docs/reference.md) |
 | Understand why it works this way | [Why a studio plugin](docs/why-studio.md) |
 | Fix an error message | [Troubleshooting](docs/troubleshooting.md) |
+| Use it with Codex, Cursor, opencode, Gemini CLI or VS Code | [Other assistants](docs/other-assistants.md) |
 | Know what it can touch and how to report a problem | [Security](docs/security.md) |
 
 The connector's own documentation is the [MCP server guide](https://github.com/EmertonData/ed-narrator-releases/blob/main/mcp-server/README.md). The plain voice-over skill is included in the public plugin bundle and is also available as a standalone download from Releases.

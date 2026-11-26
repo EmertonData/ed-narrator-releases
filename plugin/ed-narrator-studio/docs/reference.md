@@ -6,11 +6,12 @@ Exact names, settings and limits. To learn the flow, read the [tutorial](tutoria
 
 | | |
 |---|---|
-| Name | `ed-narrator-studio` (version 1.8.0, MIT) |
-| Marketplace | `ed-narrator-public`, from `EmertonData/ed-narrator-releases` (public repository) |
-| Command | `/ed-narrator-studio:studio [what to demo, or a film path]` |
-| Connector | the `ed-narrator` MCP server, started by `uvx` from `mcp-server/` in the repository |
-| Needs | ED Narrator running, `uv`, Claude Code 2.1.275 or later or Claude Cowork with plugin support; Node for Playwright and Remotion |
+| **Name** | `ed-narrator-studio` (version 1.8.1, MIT) |
+| **Marketplace** | `ed-narrator-public`, from `EmertonData/ed-narrator-releases` (public repository) |
+| **Command** | `/ed-narrator-studio:studio [what to demo, or a film path]` |
+| **Connector** | the `ed-narrator` MCP server, started by `uvx` from `mcp-server/` in the repository |
+| **Other assistants** | the connector works over MCP anywhere; `AGENTS.md` at the plugin root is the neutral entry point to the skills. See [Other assistants](other-assistants.md) |
+| **Needs** | ED Narrator running, `uv`, Claude Code 2.1.275 or later or Claude Cowork with plugin support; Node for Playwright and Remotion |
 
 ## Skills
 
@@ -24,15 +25,18 @@ Exact names, settings and limits. To learn the flow, read the [tutorial](tutoria
 
 Claude loads a skill when a request matches its description; you rarely name one.
 
+**Questions.** To gather context, the skills ask with Claude's question tool: single choice, multiple choice (several answers allowed) or an open answer through "Other", with the recommended option first. Claude asks as many questions as the result needs, in a batch or in follow-up rounds. Where the tool is missing (some Cowork setups) it numbers the options in plain text; reply with the number or your own words.
+
 ## Motion styles
 
 | Style | How it is made | Notes |
 |---|---|---|
-| 2D motion graphics | Remotion renders cards and overlays | title card, rings, zoom callouts, end card |
-| Kinetic typography | Remotion, one text scene per cue | timed to the script |
-| 3D animation | Remotion with `@remotion/three` (Three.js) | recording on a 3D device or panel, camera moves |
-| Cinematic motion picture | ffmpeg filters (`pad`, `zoompan`, `curves`, `noise`, `fade`) | letterbox 2.39:1, push-ins, grain |
-| Minimal | ffmpeg `fade` | in and out only |
+| **Editorial** (default for work tools) | the motion kit (`templates/remotion-kit`) over the real recorded clips | slow push-ins, understated lower-thirds, soft dissolves, one accent colour, the app's own logo and fonts |
+| **2D motion graphics** | Remotion renders cards and overlays | title card, rings, zoom callouts, end card |
+| **Kinetic typography** | Remotion, one text scene per cue | timed to the script |
+| **3D animation** | Remotion with `@remotion/three` (Three.js) | recording on a 3D device or panel, camera moves |
+| **Cinematic motion picture** | ffmpeg filters (`pad`, `zoompan`, `curves`, `noise`, `fade`) | letterbox 2.39:1, push-ins, grain |
+| **Minimal** | ffmpeg `fade` | in and out only |
 
 Defaults: 16:9 (also 9:16 and 1:1), intro and outro 3 s, the app's colour tokens (`DESIGN.md`) for ED Narrator demos. Text is drawn in Remotion because some ffmpeg builds have no `drawtext` filter.
 
@@ -42,8 +46,8 @@ Defaults: 16:9 (also 9:16 and 1:1), intro and outro 3 s, the app's colour tokens
 |---|---|---|
 | `check_status` | none | reachable, version, `ffmpeg_ok`, `voices_available`, engines, input and output folders, and a `problem` if any |
 | `list_voices` | `language?`, `provider?`, `limit?` (1 to 200) | voices (id, provider, name, gender, language, licence) |
-| `list_installable` | `language?` | Piper voices and the engines Kokoro and Pocket TTS with size, memory, `fits`, `installed`, `state` |
-| `install_voice_model` | `name` (`piper`, `kokoro`, `pocket`), `voice_id?`, `confirm?` | `install started`, `already installed`, or `needs_confirmation` with the size |
+| `list_installable` | `language?` | Piper voices and the engines Kokoro, Pocket TTS and Chatterbox with size, memory, `fits`, `installed`, `state` |
+| `install_voice_model` | `name` (`piper`, `kokoro`, `pocket`, `chatterbox`), `voice_id?`, `confirm?` | `install started`, `already installed`, or `needs_confirmation` with the size |
 | `wait_for_install` | `name`, `voice_id?`, `timeout_s?` (1 to 600) | `installed`, `state`, `error`, `next` |
 | `preview_script` | `script_path`, `duration_s?`, `film_path?` | cues, words, `too_long_count`, the flagged cues, `advice` |
 | `create_voiceover` | `film_path`, `script_path`, `voice`, `provider?`, `second_voice?`, `music_path?`, `quality?` (`standard`, `high`), `pronunciations?` | a job (`job_id`, status) |
@@ -70,22 +74,22 @@ Configure these values in Claude Code's `/config` panel. Cowork uses the default
 
 | | |
 |---|---|
-| Film types | `.mp4`, `.m4v`, `.mov` |
-| Script types | `.srt`, `.md`, `.markdown`, `.txt` (Markdown and text need the film length) |
-| Music types | `.mp3`, `.wav`, `.m4a`, `.aac`, `.ogg`, `.flac`, up to 200 MB |
-| Mixing in the browser | films up to 30 minutes |
-| Loudness | normalised to -16 LUFS |
-| Audio | picture copied untouched; voice as 256 kbps AAC; lossless 24-bit / 48 kHz with `high` |
-| Jobs kept | 24 hours |
-| Install sizes | Piper voice about 65 MB; Kokoro about 2.4 GB (1.5 GB memory); Pocket TTS about 3.5 GB (1.1 GB memory) |
-| Speaking pace used for scripts | about 2.5 words per second |
+| **Film types** | `.mp4`, `.m4v`, `.mov` |
+| **Script types** | `.srt`, `.md`, `.markdown`, `.txt` (Markdown and text need the film length) |
+| **Music types** | `.mp3`, `.wav`, `.m4a`, `.aac`, `.ogg`, `.flac`, up to 200 MB |
+| **Mixing in the browser** | films up to 30 minutes |
+| **Loudness** | normalised to -16 LUFS |
+| **Audio** | picture copied untouched; voice as 256 kbps AAC; lossless 24-bit / 48 kHz with `high` |
+| **Jobs kept** | 24 hours |
+| **Install sizes** | Piper voice about 65 MB; Kokoro about 2.4 GB (1.5 GB memory); Pocket TTS about 3.5 GB (1.1 GB memory); Chatterbox about 5.5 GB (4.5 GB memory, NVIDIA GPU) |
+| **Speaking pace used for scripts** | about 2.5 words per second |
 
 ## What is verified, and what is not
 
 | | State |
 |---|---|
 | Plugin and marketplace manifests | pass `claude plugin validate` |
-| The connector's tools and guards | covered by 27 offline tests (`cd mcp-server && uv run pytest`) |
+| The connector's tools and guards | covered by 29 offline tests (`cd mcp-server && uv run pytest`) |
 | A complete run (capture, 3D render, voice, music) | **not done yet** |
 | Installing from the marketplace on a clean machine | **not done yet** |
 | Windows and Linux | **not tested**; the app itself is only tested on macOS Apple silicon |

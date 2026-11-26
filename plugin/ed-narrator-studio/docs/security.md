@@ -21,6 +21,10 @@ The plugin runs on your machine with your files, through a connector to an app t
 
 The skills tell Claude to ask before installing, publishing or deleting, to keep artifacts private, and to warn you before filming. These are instructions. A tool call is not proof that you agreed, so if you auto-approve this server, an engine download can start without a second look. Keep tool approvals on if you want that check.
 
+## What Claude shows before you add it
+
+The plugin page in Claude's directory lists two notices: it **can send data to other services** and it **can run code without asking**. They come from the plugin having a connector and a command. The limits above say what that means in practice: the connector talks only to your own machine, and the skills ask before installing, publishing or deleting.
+
 ## Things to watch
 
 - **What is on screen.** A recording or an artifact can contain private data. Close windows before capturing, and say so if the film must not be shared.

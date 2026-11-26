@@ -12,6 +12,22 @@ You will make a short narrated demo of an app with Claude: a recording, a motion
 
 You do not need a script: Claude writes one from what is on screen.
 
+## 🎯 The four-stage workflow
+
+The plugin operates in four sequential stages. Understanding this order is key to successful demos:
+
+```mermaid
+flowchart TD
+    A[Capture] -->|Film or upload| B[Motion Design]
+    B -->|Storyboard approval| C[Voice Over]
+    C -->|Music mix| D[Final Result]
+```
+
+- **Stage 1: Capture** – Get footage of your app (browser, screen, or existing film)
+- **Stage 2: Motion** – Add animated style; Claude stops for your approval before rendering
+- **Stage 3: Voice** – Write script, add narration with chosen voice, mix music
+- **Stage 4: Result** – Receive final narrated video
+
 ## Step 1: Ask for the demo
 
 Open Claude Code in your folder and type:
@@ -40,13 +56,14 @@ When it finishes you get the film's path, length and size, and one line on what 
 
 Claude proposes a style, with a recommendation, and publishes a **private animated storyboard** as an artifact: the shots as a timeline you can play, in the style it suggests.
 
-| If you choose | You get |
+| Style | What you get |
 |---|---|
-| 2D motion graphics | animated title card, highlight rings, zoom callouts, end card |
-| Kinetic typography | key lines animate as type, one scene per cue |
-| 3D animation | your recording on a 3D device or floating panel, camera moves |
-| Cinematic motion picture | letterbox, slow push-ins, fades, grain, graded colour |
-| Minimal | a short fade in and out |
+| **Editorial** (recommended for work tools) | your real recording with slow push-ins, understated lower-thirds and soft dissolves, in the app's own colours |
+| **2D motion graphics** | animated title card, highlight rings, zoom callouts, end card |
+| **Kinetic typography** | key lines animate as type, one scene per cue |
+| **3D animation** | your recording on a 3D device or floating panel, camera moves |
+| **Cinematic motion picture** | letterbox, slow push-ins, fades, grain, graded colour |
+| **Minimal** | a short fade in and out |
 
 **Claude stops here and waits.** Change the style, the colours or the intro length, or say "go". The pause is deliberate: a style you reject now costs seconds, and after rendering it costs minutes.
 

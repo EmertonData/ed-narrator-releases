@@ -5,6 +5,13 @@
 <p align="center"><b>Voice-overs, timed to your film.</b><br>
 A product of <a href="https://www.emerton-data.com/">Emerton Data</a>.</p>
 
+<!-- ed-narrator-badges:start -->
+<p align="center">
+  <a href="LICENSE"><img alt="Code licence: MIT" src="https://img.shields.io/github/license/EmertonData/ed-narrator-releases?label=code"></a>
+  <a href="https://github.com/EmertonData/ed-narrator-releases/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/EmertonData/ed-narrator-releases?label=latest%20release"></a>
+</p>
+<!-- ed-narrator-badges:end -->
+
 Upload a film (`.mp4`) and a script (`.srt`, `.md` or `.txt`), pick a voice, and get the same film back with the new narration timed to your subtitles. Everything runs on your computer.
 
 This repository hosts desktop installers and the public Claude Code and Cowork plugin marketplace. It is where the app downloads its updates from.

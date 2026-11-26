@@ -2,7 +2,7 @@
   "mcpServers": {
     "ed-narrator": {
       "command": "uvx",
-      "args": ["--from", "git+https://github.com/EmertonData/ed-narrator-releases@8a8e01d8ffac7f84377ee9e41895602877724152#subdirectory=mcp-server", "ed-narrator-mcp"],
+      "args": ["--from", "git+https://github.com/EmertonData/ed-narrator-releases@11d2fdeb9bf208992d2811d7b8ccf205942d8984#subdirectory=mcp-server", "ed-narrator-mcp"],
       "env": {
         "ED_NARRATOR_URL": "${user_config.app_url}",
         "ED_NARRATOR_INPUT_DIRS": "${user_config.input_dirs}",

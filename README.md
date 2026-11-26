@@ -13,14 +13,30 @@ This repository hosts desktop installers and the public Claude Code and Cowork p
 
 **[Get the latest release](https://github.com/EmertonData/ed-narrator-releases/releases/latest)** and take the file for your system:
 
+<!-- ed-narrator-download:start -->
 | System | File | Status |
 |---|---|---|
-| **macOS** (Apple silicon: M1 and later) | `ED-Narrator_<version>_aarch64.dmg` | available |
-| **macOS** (Intel) | none yet | not available |
-| **Windows** | `ED-Narrator_<version>_x64-setup.exe` | not in every release yet |
-| **Linux** | `ED-Narrator_<version>_amd64.AppImage` | not in every release yet |
+| **macOS** (Apple silicon: M1 and later) | [`ED-Narrator_1.8.5_aarch64.dmg`](https://github.com/EmertonData/ed-narrator-releases/releases/download/v1.8.5/ED-Narrator_1.8.5_aarch64.dmg) | available in v1.8.5 |
+| **macOS** (Intel) | none yet | not in v1.8.5 |
+| **Windows** | none yet | not in v1.8.5 |
+| **Linux** | none yet | not in v1.8.5 |
+<!-- ed-narrator-download:end -->
 
 The release page lists exactly the files it carries.
+
+<!-- ed-narrator-releases:start -->
+## Releases
+
+Every version has its own page on the [Releases page](https://github.com/EmertonData/ed-narrator-releases/releases). The latest is **[v1.8.5](https://github.com/EmertonData/ed-narrator-releases/releases/tag/v1.8.5)**.
+
+Each release carries:
+
+- the macOS installer (`.dmg`), plus the Windows installer (`.exe`) and the Linux AppImage when they were built;
+- the signed update archive (`.app.tar.gz` with its `.sig`) and `latest.json`, which installed apps read to update themselves;
+- the Claude plugin ZIP (`ed-narrator-studio-v1.8.5.zip`) and the standalone voice-over skill ZIP (`ed-narrator-voiceover-skill-v1.8.5.zip`).
+
+Installed apps update themselves, so you only need an installer for a first install.
+<!-- ed-narrator-releases:end -->
 
 <!-- ed-narrator-marketplace:start -->
 ## Claude Code and Cowork
@@ -87,13 +103,19 @@ On macOS 14 and older, right-click the app and choose *Open* instead. On any ver
 
 ## Updates
 
-From version 1.3.0 the app updates itself. At start (once a day) and from **Help > Check for updates** it asks this repository for `latest.json`. When a newer version exists it offers **Install and restart**. The download is checked against a signature before it is installed, and your voices, settings and results are kept. Only the version request leaves your computer.
+From version 1.3.0 the app updates itself. At every start and from **Help > Check for updates** it asks this repository for `latest.json`. When a newer version exists it offers **Install and restart**. The download is checked against a signature before it is installed, and your voices, settings and results are kept. Only the version request leaves your computer.
 
 Version 1.2.0 and older have no updater: install the newest DMG over them once.
 
 ## Uninstall
 
 Choose **Help > Uninstall ED Narrator and delete its data…**. It deletes the installed voices and engines, your settings and your renders, then removes the app. Dragging the app to the Bin does not delete the voices: they stay in `~/Library/Application Support/com.emertondata.ednarrator` until you delete that folder.
+
+<!-- ed-narrator-license:start -->
+## License
+
+ED Narrator, the plugin, the skills and the MCP connector in this repository are released under the [MIT License](LICENSE), copyright 2026 Emerton Data. The Emerton Data name and logo are brand assets and are not licensed for use with unrelated products. The voice engines the app can install keep their own licences, shown in the app under **Licences**; third-party components are listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+<!-- ed-narrator-license:end -->
 
 ## About
 

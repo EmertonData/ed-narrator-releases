@@ -28,7 +28,7 @@ DOWNLOADS = {"video": "voiced.mp4", "audio": "voiceover.mp3", "wav": "voiceover.
              "flac": "voiceover.flac", "video_hires": "voiced_hires_flac.mp4"}
 DONE = ("done", "error", "cancelled")
 INSTALL_HINT = ("Call list_installable, then install_voice_model (a Piper voice is small); or open ED Narrator > Models. "
-                "Azure voices need a key added in the app's Settings.")
+                "Azure, OpenAI, ElevenLabs, Cartesia, Deepgram, Gemini and Fish Audio voices need a key added in the app's Settings; a custom OpenAI-compatible server needs its address and model there.")
 INSTRUCTIONS = ("Adds timed voice-over to a film through a running ED Narrator app. Typical order: check_status, list_voices, preview_script, "
                 "create_voiceover, wait_for_job (repeat until finished), download_result. Files are read only from the allow-listed input folders.")
 

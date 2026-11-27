@@ -100,7 +100,7 @@ def build_server(cfg: Config, transport: httpx.AsyncBaseTransport | None = None,
         done, total, status = j.get("done", 0), j.get("total", 0), j.get("status", "")
         out = {"job_id": j.get("id"), "status": status, "stage": j.get("stage"), "progress": f"{done}/{total} cues" if total else "starting",
                "percent": round(100 * done / total) if total else 0, "elapsed_s": j.get("elapsed"), "film_duration_s": j.get("duration"),
-               "voices": j.get("voices"), "provider": j.get("provider"), "music": j.get("music"),
+               "voices": j.get("voices"), "provider": j.get("provider"), "provider_b": j.get("provider_b") or None, "music": j.get("music"),
                "cues_too_long_for_slot": j.get("overflow", 0)}
         if status in ("queued", "running"):
             out["next"] = "Call wait_for_job, then download_result when status is done."
@@ -179,11 +179,11 @@ def build_server(cfg: Config, transport: httpx.AsyncBaseTransport | None = None,
                 "advice": "Shorten the listed cues or lengthen their slots." if tight else "Every cue fits its slot."}
 
     @mcp.tool()
-    async def create_voiceover(film_path: str, script_path: str, voice: str, provider: str = "", second_voice: str = "", music_path: str = "",
+    async def create_voiceover(film_path: str, script_path: str, voice: str, provider: str = "", second_voice: str = "", provider_b: str = "", music_path: str = "",
                                quality: Literal["standard", "high"] = "standard", pronunciations: dict[str, str] | None = None) -> dict:
         """Upload a film (.mp4/.m4v/.mov) and a script (.srt/.md/.txt) and start the render. Returns at once with a job_id: then call wait_for_job and
-        download_result. `voice` must be an id from list_voices (`provider` only if two engines share the id). `second_voice` (same engine) alternates
-        voices for a two-voice script. `music_path` adds a background track (.mp3/.wav/.m4a/.aac/.ogg/.flac). `quality` "high" also makes lossless files.
+        download_result. `voice` must be an id from list_voices (`provider` only if two engines share the id). `second_voice` alternates
+        voices for a two-voice script; it uses the same engine unless `provider_b` names another one (e.g. Piper narrator, ElevenLabs second voice). `music_path` adds a background track (.mp3/.wav/.m4a/.aac/.ogg/.flac). `quality` "high" also makes lossless files.
         `pronunciations` maps a word to how it should be said, e.g. {"SQL": "sequel"}."""
         film = guarded(safe_input, film_path, cfg, FILM_EXTS, "film")
         scr = guarded(safe_input, script_path, cfg, SCRIPT_EXTS, "script")
@@ -191,20 +191,24 @@ def build_server(cfg: Config, transport: httpx.AsyncBaseTransport | None = None,
         known = await voices()
         if not known:
             raise ToolError(f"No voice is available. {INSTALL_HINT}")
+        pb = provider_b.strip().lower()
+        if pb and not second_voice:
+            raise ToolError("provider_b needs a second_voice.")
         want = [v for v in (voice, second_voice) if v]
         provs = {p for p in (provider.strip().lower(),) if p} or {v["provider"] for v in known if v["id"] == voice}
-        prov = next((p for p in provs if all(any(k["id"] == w and k["provider"] == p for k in known) for w in want)), None)
+        has = lambda w, p: any(k["id"] == w and k["provider"] == p for k in known)      # noqa: E731
+        prov = next((p for p in provs if has(voice, p) and (pb or all(has(w, p) for w in want))), None)
         if len(provs) > 1 and not provider:
             raise ToolError(f"The voice id {voice!r} exists in several engines ({sorted(provs)}); pass provider.")
-        if not voice or prov is None:
-            raise ToolError(f"Unknown voice {want or voice!r}{f' for provider {provider!r}' if provider else ''}. Only ids returned by list_voices are accepted (and both voices must use the same engine).")
+        if not voice or prov is None or (pb and not has(second_voice, pb)):
+            raise ToolError(f"Unknown voice {want or voice!r}{f' for provider {provider!r}' if provider else ''}. Only ids returned by list_voices are accepted (both voices must use the same engine unless provider_b names the second voice's engine).")
         prons = "\n".join(f"{k}={v}" for k, v in (pronunciations or {}).items() if k and v and not re.search(r"[=\n]", k + v))
         with ExitStack() as st:
             files = {"video": (film.name, st.enter_context(film.open("rb")), "video/mp4"), "script_file": (scr.name, st.enter_context(scr.open("rb")), "text/plain")}
             if music:
                 files["music"] = (music.name, st.enter_context(music.open("rb")), "application/octet-stream")
             r = await api("POST", "/api/jobs", files=files,
-                          data={"provider": prov, "voice_a": voice, "voice_b": second_voice, "quality": quality, "pronunciations": prons})
+                          data={"provider": prov, "voice_a": voice, "voice_b": second_voice, "provider_b": pb if second_voice else "", "quality": quality, "pronunciations": prons})
         return view(r.json())
 
     @mcp.tool()

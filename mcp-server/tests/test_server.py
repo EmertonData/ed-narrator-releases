@@ -183,6 +183,22 @@ async def test_unknown_voice_is_rejected_before_any_upload(env):
     assert not [c for c in app.calls if c.method == "POST"]
 
 
+async def test_second_voice_can_come_from_another_engine(env):
+    mcp, app, inp, *_ = env
+    app.providers = [{"id": "piper", "voices": VOICES}, {"id": "elevenlabs", "voices": [{"id": "rachel", "name": "Rachel", "gender": "female", "lang": "en-US"}]}]
+    args = {"film_path": str(inp / "film.mp4"), "script_path": str(inp / "script.srt"), "voice": "en_GB-alba-medium", "second_voice": "rachel"}
+    with pytest.raises(ToolError, match="provider_b"):                      # without provider_b both voices must share an engine
+        await mcp.call_tool("create_voiceover", args)
+    with pytest.raises(ToolError, match="Unknown voice"):                   # the second voice must belong to provider_b
+        await mcp.call_tool("create_voiceover", {**args, "provider_b": "piper"})
+    with pytest.raises(ToolError, match="needs a second_voice"):
+        await mcp.call_tool("create_voiceover", {**args, "second_voice": "", "provider_b": "elevenlabs"})
+    assert not [c for c in app.calls if c.method == "POST"]
+    await call(mcp, "create_voiceover", **args, provider_b="elevenlabs")
+    body = next(c for c in app.calls if c.method == "POST" and c.url.path == "/api/jobs").read().decode("latin-1")
+    assert 'name="provider_b"' in body and "elevenlabs" in body and 'name="provider"' in body and "piper" in body
+
+
 async def test_create_refuses_files_outside_the_allow_list(env, tmp_path):
     mcp, app, inp, *_ = env
     (tmp_path / "other.mp4").write_bytes(b"x")

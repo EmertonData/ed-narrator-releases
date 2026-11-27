@@ -17,7 +17,7 @@ You need [`uv`](https://docs.astral.sh/uv/) and ED Narrator running (desktop app
 The command is the same everywhere:
 
 ```text
-uvx --from "git+https://github.com/EmertonData/ed-narrator-releases@8a8e01d8ffac7f84377ee9e41895602877724152#subdirectory=mcp-server" ed-narrator-mcp
+uvx --from "git+https://github.com/EmertonData/ed-narrator-releases@f4a57b9337048d3f47ea354f233f048619c9fd9a#subdirectory=mcp-server" ed-narrator-mcp
 ```
 
 with these environment variables:
@@ -33,7 +33,7 @@ ED_NARRATOR_OUTPUT_DIR=/Users/me/Movies/ed-narrator-output
 ```json
 { "mcpServers": { "ed-narrator": {
   "command": "uvx",
-  "args": ["--from", "git+https://github.com/EmertonData/ed-narrator-releases@8a8e01d8ffac7f84377ee9e41895602877724152#subdirectory=mcp-server", "ed-narrator-mcp"],
+  "args": ["--from", "git+https://github.com/EmertonData/ed-narrator-releases@f4a57b9337048d3f47ea354f233f048619c9fd9a#subdirectory=mcp-server", "ed-narrator-mcp"],
   "env": { "ED_NARRATOR_URL": "http://127.0.0.1:18090", "ED_NARRATOR_INPUT_DIRS": "/Users/me/Movies", "ED_NARRATOR_OUTPUT_DIR": "/Users/me/Movies/ed-narrator-output" }
 } } }
 ```
@@ -45,7 +45,7 @@ ED_NARRATOR_OUTPUT_DIR=/Users/me/Movies/ed-narrator-output
 ```toml
 [mcp_servers.ed-narrator]
 command = "uvx"
-args = ["--from", "git+https://github.com/EmertonData/ed-narrator-releases@8a8e01d8ffac7f84377ee9e41895602877724152#subdirectory=mcp-server", "ed-narrator-mcp"]
+args = ["--from", "git+https://github.com/EmertonData/ed-narrator-releases@f4a57b9337048d3f47ea354f233f048619c9fd9a#subdirectory=mcp-server", "ed-narrator-mcp"]
 env = { ED_NARRATOR_URL = "http://127.0.0.1:18090", ED_NARRATOR_INPUT_DIRS = "/Users/me/Movies", ED_NARRATOR_OUTPUT_DIR = "/Users/me/Movies/ed-narrator-output" }
 ```
 
@@ -54,7 +54,7 @@ env = { ED_NARRATOR_URL = "http://127.0.0.1:18090", ED_NARRATOR_INPUT_DIRS = "/U
 ```json
 { "mcp": { "ed-narrator": {
   "type": "local",
-  "command": ["uvx", "--from", "git+https://github.com/EmertonData/ed-narrator-releases@8a8e01d8ffac7f84377ee9e41895602877724152#subdirectory=mcp-server", "ed-narrator-mcp"],
+  "command": ["uvx", "--from", "git+https://github.com/EmertonData/ed-narrator-releases@f4a57b9337048d3f47ea354f233f048619c9fd9a#subdirectory=mcp-server", "ed-narrator-mcp"],
   "environment": { "ED_NARRATOR_URL": "http://127.0.0.1:18090", "ED_NARRATOR_INPUT_DIRS": "/Users/me/Movies", "ED_NARRATOR_OUTPUT_DIR": "/Users/me/Movies/ed-narrator-output" },
   "enabled": true
 } } }
